@@ -75,3 +75,40 @@ Untuk memastikan fitur **Notification API** dan **LocalStorage** berjalan tanpa 
 ├── styles.css          # Styling kustom, layout responsif, dan komponen UI
 ├── app.js              # State management, logika render, dan penanganan Notifikasi
 └── README.md           # Dokumentasi proyek
+
+## 📅 Development Log & Activity Tracking
+
+### 🛠️ Session Log: 23 Sep – 24 Sep (02:00 WIB)
+Log eksekusi dan iterasi fitur secara berurutan pada sesi ini:
+
+- **[00:15 WIB] Fix Notification Permission Loop**
+  - Mengubah logika `Notification.requestPermission()` di `app.js` agar hanya terpicu jika status izin berada di kondisi `'default'`.
+  - Mengalihkan runtime dari `file:///` ke Local Web Server via **VS Code Port Forwarding** (`https://...`) agar browser menyimpan izin notifikasi secara permanen.
+- **[01:00 WIB] Refactoring UI Task Completed & Ongoing**
+  - Mengeliminasi menu dropdown titik tiga (`⋮`) khusus di section *Completed Tasks*.
+  - Merekayasa ulang posisi tombol **Hapus** agar tampil presisi di pojok kanan sebelah badge `📝 Ada Catatan` (menggunakan warna biru `#1a73e8` + icon pensil).
+- **[01:30 WIB] Header Alignment & Strikethrough Precision**
+  - Menyisipkan identitas `by ken` (style abu-abu `#888888`, font kecil) di sebelah judul `My To-Do List`.
+  - Memperbaiki kontras tombol tambah (`+`) agar tetap membulat dengan warna background hitam dan teks putih.
+  - Menyelaraskan posisi garis coret (*strikethrough*) pada task selesai agar pas di tengah teks (`vertical-align: middle` / *pseudo-element line-through*).
+- **[01:50 WIB] Form Spacing & Credential Setup**
+  - Menambahkan spacing vertikal (`margin-bottom: 12px`) pada seluruh elemen `<input>` dan `<textarea>` di dalam modal form.
+  - Memilih `manager-core` pada Windows CredentialHelperSelector untuk integrasi autentikasi Git ke GitHub.
+
+---
+
+### 🔮 Next Plan: Interactive Activity Tracker Component
+Rencana pengembangan fitur pelacak aktivitas (*Activity Tracker*) terinspirasi dari pola heatmap/dots GitHub untuk mencatat riwayat penyelesaian task pengguna:
+
+#### 1. Dot Grid Visualizer
+- Menampilkan indikator titik (*dots*) dengan gradasi warna berdasarkan intensitas/jumlah task yang diselesaikan pada periode tersebut.
+
+#### 2. Multi-View Granularity Switcher
+Memungkinkan pengguna berpindah mode tampilan *activity tracker*:
+- **Hourly View (Per Jam)**: Heatmap 24 jam untuk melacak jam-jam paling produktif dalam sehari.
+- **Daily View (Per Hari)**: Grid mingguan/bulanan khas GitHub (Mon–Sun).
+- **Monthly View (Per Bulan)**: Ringkasan produktivitas 12 bulan dalam setahun.
+- **Yearly View (Per Tahun)**: Rekap histori produktivitas jangka panjang.
+
+#### 3. Interactive Detail Tooltip & Filter
+- Efek *hover/click* pada setiap *dot* untuk melihat detail jumlah task selesai dan durasi fokus yang dihabiskan pada jam/hari tersebut.
