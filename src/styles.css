@@ -1,75 +1,503 @@
-* {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
-    font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    outline: none;
 }
 
 body {
-    background-color: #f4f5f7;
-    padding: 20px;
+    width: 100%;
+    height: 100vh;
+    background-color: #fcfcfc;
+    color: #1a1a1a;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .container {
-    width: 100%;
-    max-width: 500px;
-    background: white;
+    width: 90%;
+    max-width: 480px;
+    height: 85vh;
+    background: #ffffff;
     padding: 24px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-form {
+    border-radius: 12px;
     display: flex;
-    gap: 8px;
-    margin-bottom: 24px;
+    flex-direction: column;
+    gap: 12px;
 }
 
-input[type="text"] {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+/* Container Utama Responsif terhadap Window */
+.container, 
+main, 
+#app {
+    width: 100%;
+    max-width: 800px;
+    /* Margin atas-bawah & kiri-kanan menyesuaikan lebar window */
+    margin: clamp(12px, 3vh, 32px) auto;
+    /* Padding dinamis: minimal 12px, ideal 3vw, maksimal 24px */
+    padding: clamp(12px, 3vw, 24px);
+    box-sizing: border-box;
 }
 
-button {
-    padding: 10px 16px;
-    background-color: #0066cc;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.task-list {
-    list-style: none;
-    padding: 0;
-}
-
+/* Item Task Dinamis */
 .task-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px;
-    border-bottom: 1px solid #eee;
+    justify-content: space-between;
+    /* Padding dalam task menyesuaikan layar */
+    padding: clamp(8px, 1.5vh, 14px) clamp(10px, 2vw, 16px);
+    margin-bottom: clamp(6px, 1vh, 12px);
+    gap: clamp(8px, 2vw, 16px);
 }
 
-.task-item.done span {
-    text-decoration: line-through;
-    color: #888;
+/* Bagian Kanan Task (Badge, Timer, Action) */
+.task-right-section {
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 1.5vw, 12px);
 }
 
-.task-item {
+/* Tampilan Modal Responsif terhadap Window */
+.modal-content {
+    width: min(90%, 500px);
+    max-height: 85vh;
+    padding: clamp(16px, 4vw, 28px);
+    margin: auto;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+/* Form Input & Element Responsif */
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: clamp(8px, 1.2vh, 12px) clamp(10px, 1.5vw, 14px);
+    box-sizing: border-box;
+}
+
+/* Tombol Responsif */
+button, 
+.btn-primary, 
+.btn-secondary, 
+.btn-timer-action {
+    padding: clamp(6px, 1vh, 10px) clamp(12px, 2vw, 18px);
+    font-size: clamp(0.8rem, 1vw, 0.95rem);
+}
+
+/* Perbaikan khusus untuk tombol Floating + */
+#btn-open-form {
+    width: 42px;
+    height: 42px;
+    padding: 0 !important; /* Hapus padding bawaan tombol */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    line-height: 1;
+}#btn-open-form {
+    width: 42px;
+    height: 42px;
+    background-color: #000000; /* Latar belakang hitam */
+    color: #ffffff;            /* Teks/ikon + warna putih */
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0 !important;
+    transition: background-color 0.2s ease;
+}
+
+#btn-open-form:hover {
+    background-color: #222222; /* Warna saat di-hover */
+}
+
+.task-long-desc-badge {
+    background-color: #e8f0fe;
+    color: #1a73e8;
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.author-tag {
+    font-size: 0.85rem;
+    color: #888888;
+    font-weight: 400;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
+.header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.btn-delete {
-    background-color: #ff4d4f;
-    color: white;
+h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.btn-add {
+    background: #111;
+    color: #fff;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border: none;
+}
+
+/* On-Going Tasks (Scroll Area Utama) */
+.task-scroll-area {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.task-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.task-item {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.task-clickable-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    cursor: pointer;
+}
+
+.task-clickable-area input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #111;
+    cursor: pointer;
+}
+
+.task-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.task-text {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.task-item.done .task-text {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.task-short-desc {
+    font-size: 0.78rem;
+    color: #666;
+}
+
+.task-timestamp {
+    font-size: 0.68rem;
+    color: #a0a0a0;
+    margin-top: 2px;
+}
+
+.task-right-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.timer-display {
+    font-family: monospace;
+    font-weight: 600;
+    font-size: 0.85rem;
+    background: #eef0f2;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.btn-timer-action {
+    background: #111;
+    color: #fff;
     border: none;
     padding: 4px 8px;
     border-radius: 4px;
+    font-size: 0.75rem;
     cursor: pointer;
+}
+
+/* Container Task Selesai (Terpisah & Collapsible) */
+.completed-container {
+    border-top: 1px solid #eee;
+    padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.completed-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.completed-header h2 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #666;
+}
+
+.arrow-icon {
+    font-size: 0.75rem;
+    color: #666;
+    transition: transform 0.2s ease;
+}
+
+/* Rotasi panah saat ter-collapse */
+.completed-container.collapsed .arrow-icon {
+    transform: rotate(-90deg);
+}
+
+.completed-body {
+    max-height: 25vh;
+    overflow-y: auto;
+}
+
+.completed-container.collapsed .completed-body {
+    display: none;
+}
+
+/* Dropdown Menu Titik Tiga */
+.dropdown {
+    position: relative;
+}
+
+.btn-dots {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 4px 6px;
+    color: #666;
+    line-height: 1;
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    z-index: 999;
+    min-width: 110px;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.dropdown-menu button {
+    padding: 10px 14px;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: #333;
+    width: 100%;
+}
+
+.dropdown-menu button:hover {
+    background: #f3f4f6;
+}
+
+.dropdown-menu .text-danger {
+    color: #ef4444;
+}
+
+/* Modal Popup Base */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal-content input,
+.modal-content textarea,
+.timer-select-modal {
+    width: 100%;
+    padding: 8px 10px;
+    background: #f4f4f5;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.88rem;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.btn-primary {
+    background: #111;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background: #f4f4f5;
+    color: #333;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Readonly Modal */
+.modal-timestamp {
+    font-size: 0.75rem;
+    color: #888;
+}
+
+.detail-section label {
+    font-size: 0.75rem;
+    color: #666;
+    font-weight: 600;
+}
+
+#modal-long-desc-input[readonly] {
+    background: #f8f9fa;
+    resize: none;
+}
+
+/* Styling Overdue Red Text & Badge */
+.task-item.overdue .task-text {
+    color: #ef4444 !important;
+    font-weight: 700;
+}
+
+.overdue-badge {
+    font-size: 0.72rem;
+    color: #ef4444;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.timer-display.overdue-timer {
+    background: #fef2f2;
+    color: #ef4444;
+    border: 1px solid #fca5a5;
+}
+
+/* Toast Notification UI */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 2000;
+}
+
+.toast {
+    background: #111;
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.task-long-desc-badge {
+    font-size: 0.7rem;
+    color: #2563eb;
+    background-color: #eff6ff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 2px;
+    font-weight: 500;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="number"],
+.modal-content input[type="datetime-local"],
+.modal-content textarea,
+.modal-content select {
+    margin-bottom: 12px; /* Mengatur jarak antar input box */
+}
+
+/* Jika input dibungkus div class .form-group, atur spasi grupnya */
+.form-group {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
