@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Productivity</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Task Board</h1>
+    
+    <!-- Form Input -->
+    <form id="task-form">
+      <input type="text" id="task-input" placeholder="Tulis task baru di sini..." required>
+      <button type="submit">Tambah</button>
+    </form>
+
+    <!-- List Task Active -->
+    <h2>Belum Selesai</h2>
+    <ul id="pending-list" class="task-list"></ul>
+
+    <!-- List Task Completed -->
+    <h2>Selesai</h2>
+    <ul id="completed-list" class="task-list"></ul>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
