@@ -75,6 +75,7 @@ Untuk memastikan fitur **Notification API** dan **LocalStorage** berjalan tanpa 
 ├── styles.css          # Styling kustom, layout responsif, dan komponen UI
 ├── app.js              # State management, logika render, dan penanganan Notifikasi
 └── README.md           # Dokumentasi proyek
+```
 
 ## 📅 Development Log & Activity Tracking
 
